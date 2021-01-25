@@ -1,4 +1,5 @@
 const User = require('../models/users')
+
 const jwt = require('jsonwebtoken')
 const secret = 'my-sceret'
 
@@ -97,6 +98,8 @@ module.exports.signup = (req,res) => {
         }
     })
 }
+
+
 
 
 

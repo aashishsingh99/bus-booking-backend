@@ -7,6 +7,7 @@ const secret = "my-secret"
 const app = express()
 const PORT = 5000
 const userRoutes = require('./routes/users')
+const busRoutes = require('./routes/buses')
 
 require('dotenv').config()
 
@@ -23,5 +24,5 @@ connection.once('open', () => {
 });
 
 app.use('/', userRoutes)
-
+app.use('/', busRoutes)
 app.listen(PORT, ()=> console.log(`server started on PORT ${PORT}`))

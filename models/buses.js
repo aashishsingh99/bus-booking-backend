@@ -8,5 +8,5 @@ const busSchema = new mongoose.Schema({
     bus_from: String, 
     bus_to: String,  
 })
-const Buses = new mongoose.model("Buses" ,busSchema)
-module.exports = Buses
+const Bus = new mongoose.model("Bus" ,busSchema);
+module.exports = Bus;
