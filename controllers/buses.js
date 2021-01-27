@@ -4,9 +4,9 @@ const Bookings = require('../models/bookings')
 const secret = 'my-sceret'
 
 module.exports.getBuses = (req,res) => {
-    Bus.find({}, function(data,err) {
+    Bus.find({}, function(err,data) {
         if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
-        res.json(data)
+        res.json({error:"",data,msg:"buses loaded from api",status:true})
     })
 }
 
@@ -28,7 +28,7 @@ module.exports.postBuses = (req,res) => {
         bus_to })
     bus.save(req.body, function(err,data) {
         if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
-        res.json(data)
+        res.json({error:"",data,msg:"new bus added",status:true})
     })
 }
 
