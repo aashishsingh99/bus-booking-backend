@@ -1,7 +1,7 @@
 const Bus = require('../models/buses')
-const jwt = require('jsonwebtoken')
 const Bookings = require('../models/bookings')
-const secret = 'my-sceret'
+
+
 
 module.exports.getBuses = (req,res) => {
     Bus.find({}, function(err,data) {
@@ -33,7 +33,7 @@ module.exports.postBuses = (req,res) => {
 }
 
 module.exports.seatinfo = (req,res) => {
-    let busid = req.body.id
+    let busid = req.body.busid
     Bookings.find({_id:busid},function(err,data){
 		if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
 		res.json({error:"",data,msg:"new bus added",status:true})			

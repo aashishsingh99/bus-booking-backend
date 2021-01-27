@@ -10,3 +10,4 @@ const busSchema = new mongoose.Schema({
 })
 const Bus = new mongoose.model("Bus" ,busSchema);
 module.exports = Bus;
+

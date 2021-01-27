@@ -6,7 +6,7 @@ module.exports.findAllBookings = (req,res)=>{
 
     Bookings.find(function(err,data){
 		if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
-		res.json({error:"",data,msg:"bookings loaded from api",status:true})			
+		res.json({error:"",data:data,msg:"bookings loaded from api",status:true})			
 	})
 
 }
@@ -28,8 +28,8 @@ module.exports.mybookings = (req,res) => {
 module.exports.bookseat = (req,res) => {
     let booking=new Bookings({
 		userid:req.id,
-		busid:req.body.bid,
-		seatid:req.body.sid,
+		busid:req.body.busid,
+		seatid:req.body.seatid,
 	})
 
 
