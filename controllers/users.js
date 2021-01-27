@@ -75,6 +75,25 @@ module.exports.login = (req,res) => {
     })
 }
 
+module.exports.adminlogin = (req,res) => {
+    const {email,password}=req.body
+
+	if(email=='admin@gmail.com' && password=="admin")
+	{
+		const user=req.body
+		jwt.sign({email:email},secret,(error,token)=>{
+			if(err){return res.json({error:error,data:[],msg:"too many requests in token generation",status:false})}
+			res.json({error:"",data:{role:"admin",name:"admin",token},msg:"admin login success",status:true})	
+		})
+	}
+	else
+	{
+		res.json({error:"admin not found",data:[],msg:"unable to find admin",status:false})
+	}
+}
+
+
+
 module.exports.signup = (req,res) => {
 
     const {name ,email, password, phone, } = req.body 
@@ -98,6 +117,18 @@ module.exports.signup = (req,res) => {
         }
     })
 }
+
+module.exports.getusers = (req,res) =>{
+    User.find(function(err,data){
+
+        if(err)
+        {
+            return res.json({error:err,data:[],msg:"ran into problem",status:false})
+        }
+        res.json({error:"",data,msg:"users loaded from api",status:true})
+    })
+}
+
 
 
 
