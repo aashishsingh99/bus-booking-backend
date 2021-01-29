@@ -1,5 +1,7 @@
 const express = require('express')
 const { getBuses, postBuses, createseat, seatinfo } = require('../controllers/buses')
+const jwt = require("jsonwebtoken")
+const secret = "mysecret"
 
 function admin(req,res,next)
 {
@@ -8,6 +10,10 @@ function admin(req,res,next)
     {
         const token = req.headers["authorization"].split(" ")[1]
         jwt.verify(token, secret, (err, data) => {
+            if(data){
+            console.log("data")
+            console.log(data)}
+            
             if(data.role === 'admin'){
                 status = true
             }
@@ -26,6 +32,6 @@ function admin(req,res,next)
 const router = express.Router()
 router.get('/buses', getBuses)
 router.post('/buses', admin, postBuses)
-router.post('seat/info', seatinfo)
+router.post('/seat/info', seatinfo)
 router.post('/seat/create', createseat)
 module.exports = router

@@ -4,7 +4,7 @@ const Bookings = require('../models/bookings')
 
 
 module.exports.getBuses = (req,res) => {
-    Bus.find({}, function(err,data) {
+    Bus.find(function(err,data) {
         if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
         res.json({error:"",data,msg:"buses loaded from api",status:true})
     })

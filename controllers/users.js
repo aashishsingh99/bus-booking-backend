@@ -1,53 +1,7 @@
 const User = require('../models/users')
 
 const jwt = require('jsonwebtoken')
-const secret = 'my-sceret'
-
-function user(req,res,next)
-{
-    const status = false 
-    if(req.headers["authorization"])
-    {
-        const token = req.headers["authorization"].split(" ")[1]
-        jwt.verify(token, secret, (err,data) => {
-            if(data.role == "user")
-            {
-                req.id = data.id 
-                status = true 
-            }
-        })
-    }
-
-    if(status === true)
-    {
-        next()
-    }
-    else{
-        res.json({status: false, data: [], error: "token error", msg: "please login"})
-    }
-}
-
-function admin(req,res,next)
-{
-    const status = false
-    if(req.headers["authorization"])
-    {
-        const token = req.headers["authorization"].split(" ")[1]
-        jwt.verify(token, secret, (err, data) => {
-            if(data.role === 'admin'){
-                status = true
-            }
-        })
-    }
-    if(status === true)
-    {
-        next()
-    }
-    else{
-        res.json({status: false, data: [], error: "token error", msg: "please login"})
-    }
-}
-
+const secret = 'mysecret'
 
 
 module.exports.login = (req,res) => {
@@ -57,10 +11,10 @@ module.exports.login = (req,res) => {
             return res.json({error:err, data:[], msg: "ran into problem", status: false})
         }
 
-        if(data.some(x=>x.email===email && x.password === password))
+        if(data.some(x=>x.email==email && x.password == password))
         {
-            const user = data.find(x=>x.email === email && x.password === password)
-            jwt.sign({id: user.id, role: "user"}, secret, (error,token) => {
+            let user = data.find(x=>x.email == email && x.password == password)
+            jwt.sign({id: user._id.toString(), role: "user"}, secret, (error,token) => {
                 if(err){
                     return res.json({error: error, data:[], msg: "some problems" ,status:false})
                 }
@@ -82,7 +36,7 @@ module.exports.adminlogin = (req,res) => {
 	{
 		const user=req.body
 		jwt.sign({email:email},secret,(error,token)=>{
-			if(err){return res.json({error:error,data:[],msg:"too many requests in token generation",status:false})}
+			if(error){return res.json({error:error,data:[],msg:"too many requests in token generation",status:false})}
 			res.json({error:"",data:{role:"admin",name:"admin",token},msg:"admin login success",status:true})	
 		})
 	}
@@ -110,7 +64,7 @@ module.exports.signup = (req,res) => {
             user.save(function(errors){
                 if(errors)
                 {
-                    res.json({error:errors,data:[],msg:"ran into problem",status:false}) 
+                    return res.json({error:errors,data:[],msg:"ran into problem",status:false}) 
                 }
                 res.json({error:"",data:[],msg:"user signup success",status:true})
             })

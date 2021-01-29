@@ -1,5 +1,8 @@
 const express = require('express')
 const { findAllBookings, mybookings, bookseat, cancelbooking } = require('../controllers/bookings')
+const jwt = require("jsonwebtoken")
+const secret = "mysecret"
+
 
 function admin(req,res,next)
 {
@@ -15,7 +18,7 @@ function admin(req,res,next)
     }
     if(status === true)
     {
-        next()
+        
     }
     else{
         // res.json({status: false, data: [], error: "token error", msg: "please login"})
@@ -23,34 +26,43 @@ function admin(req,res,next)
     next()
 }
 
+
 function user(req,res,next)
 {
-    let status = false 
-    if(req.headers["authorization"])
-    {
-        const token = req.headers["authorization"].split(" ")[1]
-        jwt.verify(token, secret, (err,data) => {
-            if(data.role == "user")
-            {
-                req.id = data.id 
-                status = true 
-            }
-        })
-    }
+	let status=false
+	if(req.headers["authorization"])
+	{
+		const token=req.headers["authorization"].split(" ")[1]
 
-    if(status === true)
-    {
-        next()
-    }
-    else{
-        res.json({status: false, data: [], error: "token error", msg: "please login"})
-    }
+		jwt.verify(token,secret,(err,data)=>{
+            if(err)
+            {
+                console.log("errror hai ")
+                console.log(err)
+            }
+			if(data.role=="user")
+			{
+				req.id=data.id
+				status=true
+			}
+		})
+	}
+
+	if(status==true)
+	{
+		next()
+	}
+	else
+	{
+		res.json({status:false,data:[],error:"token error",msg:"kindly login to continue"})
+	}
 }
 
+
 const router = express.Router()
-router.get('/bookings', admin, findAllBookings)
-router.get('/my/bookings', user, mybookings)
+router.get('/bookings',  admin, findAllBookings)
+router.get('/my/bookings',  user, mybookings)
 router.post('/book/seat', user, bookseat)
-router.post('/cancel/booking', user, cancelbooking)
+router.post('/cancel/booking',  user, cancelbooking)
 module.exports = router
 

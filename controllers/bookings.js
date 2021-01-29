@@ -1,6 +1,6 @@
-const Bookings = require('../models/Bookings')
+const Bookings = require('../models/bookings')
 const jwt = require('jsonwebtoken')
-const secret = 'my-sceret'
+const secret = 'mysecret'
 
 module.exports.findAllBookings = (req,res)=>{
 
