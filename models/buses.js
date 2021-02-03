@@ -7,6 +7,7 @@ const busSchema = new mongoose.Schema({
     bus_hours: String, 
     bus_from: String, 
     bus_to: String,  
+    photo: String,
 })
 const Bus = new mongoose.model("Bus" ,busSchema);
 module.exports = Bus;

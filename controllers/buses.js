@@ -18,14 +18,16 @@ module.exports.postBuses = (req,res) => {
         bus_endtime, 
         bus_hours, 
         bus_from, 
-        bus_to } = req.body 
+        bus_to,
+        photo } = req.body 
     const bus = new Bus({ bus_title, 
         bus_route, 
         bus_starttime, 
         bus_endtime, 
         bus_hours, 
         bus_from, 
-        bus_to })
+        bus_to,
+        photo })
     bus.save(req.body, function(err,data) {
         if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
         res.json({error:"",data,msg:"new bus added",status:true})
