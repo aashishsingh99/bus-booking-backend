@@ -35,8 +35,8 @@ module.exports.postBuses = (req,res) => {
 }
 
 module.exports.seatinfo = (req,res) => {
-    let busid = req.body.busid
-    Bookings.find({busid:busid},function(err,data){
+    
+    Bookings.find(function(err,data){
 		if(err){return res.json({error:err,data:[],msg:"ran into problem",status:false})}
 		res.json({error:"",data,msg:"get seat info",status:true})			
 			
